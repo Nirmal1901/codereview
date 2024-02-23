@@ -1,15 +1,13 @@
-About the code:
-This code is a FastAPI application that provides an endpoint to fetch the transcript of a YouTube video using the YouTube Transcript API.
+About the code: The code is a FastAPI application that provides an endpoint to fetch video transcripts from YouTube using the youtube_transcript_api library.
 
 Status: Poor
 
 Issues:
-1. Indentation Errors: The indentation in the code is inconsistent, leading to syntax errors.
-2. Incorrect method signature: The `get_video_transcript` method should have `self` as the first parameter for a class method.
-3. Incorrect URL parameter: The URL parameter in the route decorator should not be enclosed in curly braces `{}`.
-4. Incorrect return statement: The return statement in the `get_video_transcript` method is inside the for loop, so it will return only the first caption.
-5. Exception handling: The exception handling block is not properly structured and should be outside the for loop.
-6. Async function without `await`: The `fetch_transcript` function is defined as an async function, but it does not use `await`.
+1. The `get_video_transcript` method in the `VideoURL` class is missing the `self` parameter.
+2. The `get_video_transcript` method should be a static method or a class method, as it doesn't require access to any instance attributes.
+3. The `return` statement inside the `for` loop in `get_video_transcript` will exit the loop after processing the first caption, which may result in incomplete transcripts.
+4. Indentation issues in the `except` block and the `@app.get` decorator.
+5. The `fetch_transcript` endpoint is passing the `video_url` as a path parameter, but the function is expecting it as a query parameter.
 
 Improved code:
 ```python
@@ -29,6 +27,7 @@ class VideoURL(BaseModel):
             transcript_text = ''
             for caption in transcript_list:
                 if 'text' in caption:
+                    # Append all captions before returning
                     transcript_text += ' ' + caption['text']
             return transcript_text.strip()
         except Exception as e:
@@ -36,10 +35,18 @@ class VideoURL(BaseModel):
 
 @app.get('/get_transcript/')
 async def fetch_transcript(video_url: str):
-    video_id = video_url.split("v=")[1]  # Extract video id from the URL
+    video_id = video_url.split('=')[-1]  # Extract video ID from URL
     transcript = VideoURL.get_video_transcript(video_id)
+    
     if transcript:
         return {"transcript": transcript}
     else:
         raise HTTPException(status_code=404, detail="Failed to fetch transcript. Please check the provided video URL.")
 ```
+
+Improvements:
+1. Added the `self` parameter to the `get_video_transcript` method in the `VideoURL` class.
+2. Converted the `get_video_transcript` method into a static method.
+3. Modified the return logic to concatenate all captions before returning the transcript.
+4. Fixed the indentation of the `except` block and the `@app.get` decorator.
+5. Changed the `video_url` parameter to a query parameter in the `fetch_transcript` endpoint.
