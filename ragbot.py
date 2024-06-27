@@ -78,9 +78,10 @@ headers[1].to_dict()
 
 elements = chunk_by_title(pdf_elements)
 
-!pip install langchain_community
-!pip install langchain_core
-!pip install langchain_openai
+# !pip install langchain_community
+# !pip install langchain_core
+
+# !pip install langchain_openai
 
 from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
