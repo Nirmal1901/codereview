@@ -13,8 +13,7 @@ def get_video_transcript(video_id):
         transcript_text = ''
         
         for caption in transcript_list:
-            if 'text' in caption:
-                transcript_text += ' ' + caption['text']
+            if 'text' in capt
         
         return transcript_text.strip()
     except Exception as e:
