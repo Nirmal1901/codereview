@@ -7,7 +7,6 @@ public class DataProcessor {
         List<Integer> data = Arrays.asList(5, 3, 9, 3, 5, 1, 9, 7, 3, 1);
         dp.processData(data);
     }
-    
 
     public void processData(List<Integer> input) {
         // Sort the list
