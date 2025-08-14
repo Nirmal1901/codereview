@@ -10,6 +10,7 @@ GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN")
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
+
 # Initialize GitHub client
 github_client = Github(GITHUB_ACCESS_TOKEN)
 
