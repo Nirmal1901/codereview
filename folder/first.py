@@ -11,6 +11,7 @@ class Car():
         return self.brand
 
     def set_model(self, model):
+        
         self.model = model
 
     def get_model(self):
